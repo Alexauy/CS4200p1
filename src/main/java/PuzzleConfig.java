@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class PuzzleConfig {
     private int[] board = new int[9];
 
@@ -7,8 +11,12 @@ public class PuzzleConfig {
         }
     }
 
+    public int[] getPuzzleConfig(){
+        return board.clone();
+    }
+
     //Finds where the 0 puzzle piece is
-    public int findZero(){
+    private int findZero(){
         int indexOfZ = 0;
 
         for(int i = 0; i<board.length; i++){
@@ -34,7 +42,7 @@ public class PuzzleConfig {
             }
         }
 
-        if(numberOfMatches==board.length){
+        if(numberOfMatches == board.length){
             achieved = true;
         }
 
@@ -47,7 +55,8 @@ public class PuzzleConfig {
         int misplaced = 0;
 
         for(int i = 0; i<board.length; i++){
-            if(board[i] != solution[i]){
+            //Skip the 0 tile because it is an empty space
+            if(board[i] != 0 && board[i] != solution[i]){
                 misplaced++;
             }
         }
@@ -82,6 +91,39 @@ public class PuzzleConfig {
         return distance;
     }
 
+//>>>ChatGPT was used to debug getLegalMoves()<<<
+    //Get legal move configurations given current state
+    public List<PuzzleConfig> getLegalMoves(){
+        List<PuzzleConfig >legalMoves = new ArrayList<>();
+        int zeroR = findZero()/3;
+        int zeroC = findZero()%3;
+
+        //(r, c) can move: up, down, left, right
+        int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        for(int i = 0; i<directions.length; i++){
+            int newR = zeroR + directions[i][0];
+            int newC = zeroC + directions[i][1];
+
+            //Check whether the coordinate after will still be within the bounds
+            if((newR >= 0 && newR <3) && (newC >= 0 && newC < 3)){
+                //If so, then its valid and we should save the config
+                int[] copy = board.clone();
+
+                int zeroIndex = zeroR*3 + zeroC;
+                int swappedIndex = newR*3 + newC;
+
+                int temp = copy[zeroIndex];
+                copy[zeroIndex] = copy[swappedIndex];
+                copy[swappedIndex] = temp;
+
+                legalMoves.add(new PuzzleConfig(copy));
+            }
+
+        }
+        return legalMoves;
+    }
+
     public String toString(){
         String stringBoard = "";
         int counter = 1;
@@ -104,11 +146,16 @@ public class PuzzleConfig {
     }
 
     public static void main(String[] args){
-        int[] testBoard = {0, 1, 2, 3, 4, 5, 6, 7, 8};
+        int[] testBoard = {1, 2, 3, 4, 0, 5, 6, 7, 8};
         PuzzleConfig p = new PuzzleConfig(testBoard);
-        System.out.println(p);
 
-        System.out.println(p.h2());
+        List<PuzzleConfig> neighbors = p.getLegalMoves();
+
+        System.out.println("Number of neighbors: " + neighbors.size());
+
+        for(PuzzleConfig n : neighbors){
+            System.out.println(Arrays.toString(n.getPuzzleConfig()));
+        }
 
         /*
         1 2 3
