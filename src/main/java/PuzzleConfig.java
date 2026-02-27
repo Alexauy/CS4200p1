@@ -54,7 +54,7 @@ public class PuzzleConfig {
 
         return misplaced;
     }
-
+//>>>ChatGPT was used to debug the h2 method<<<
     //h2 = the sum of the distances of the tiles from their goal positions
     // |x1 - x2| + |y1 - y2|
     public int h2(){
@@ -104,7 +104,7 @@ public class PuzzleConfig {
     }
 
     public static void main(String[] args){
-        int[] testBoard = {1, 2, 3, 4, 5, 6, 7, 8, 0};
+        int[] testBoard = {0, 1, 2, 3, 4, 5, 6, 7, 8};
         PuzzleConfig p = new PuzzleConfig(testBoard);
         System.out.println(p);
 
