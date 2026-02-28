@@ -144,27 +144,4 @@ public class PuzzleConfig {
         }
         return stringBoard;
     }
-
-    public static void main(String[] args){
-        int[] testBoard = {1, 2, 3, 4, 0, 5, 6, 7, 8};
-        PuzzleConfig p = new PuzzleConfig(testBoard);
-
-        List<PuzzleConfig> neighbors = p.getLegalMoves();
-
-        System.out.println("Number of neighbors: " + neighbors.size());
-
-        for(PuzzleConfig n : neighbors){
-            System.out.println(Arrays.toString(n.getPuzzleConfig()));
-        }
-
-        /*
-        1 2 3
-        8 0 4
-        7 6 5
-
-        7 2 4
-        5 0 6
-        8 3 1
-         */
-    }
 }
