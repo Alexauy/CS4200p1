@@ -131,5 +131,13 @@ public class Main {
         }
 
         System.out.println("Search cost: " + solver.getSearchCost());
+
+        //Running 100 tests
+        RunABunch automate = new RunABunch(100);
+
+        automate.run();
+        automate.writeToFile("results.txt");
+
+        System.out.println("100 test results were saved in the results.txt file");
     }
 }
